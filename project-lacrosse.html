@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lacrosse Expected Goals Model - Asher Friedman</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        header {
+            background: white;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid #e0e0e0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-box {
+            width: 50px;
+            height: 50px;
+            background: #0000ff;
+            border-radius: 4px;
+        }
+
+        .logo-text h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #0000ff;
+            margin-bottom: 0.2rem;
+        }
+
+        .logo-text p {
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: 400;
+        }
+
+        .logo-section a {
+            text-decoration: none;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #333;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #0000ff;
+        }
+
+        /* Hero Image Section */
+        .hero-image {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Project Title */
+        h1 {
+            text-align: center;
+            font-size: 3.5rem;
+            color: #0000ff;
+            padding: 3rem 2rem 2rem;
+            margin: 0;
+        }
+
+        /* Text Content Section */
+        .project-text {
+            background: #f0f0f5;
+            padding: 4rem 2rem;
+        }
+
+        .text-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .text-container p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #0000ff;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Media Gallery Section */
+        .media-gallery {
+            background: #f0f0f5;
+            padding: 2rem 2rem 5rem;
+        }
+
+        .media-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .media-item {
+            width: 100%;
+        }
+
+        .media-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 0.5rem;
+        }
+
+        .caption {
+            font-size: 0.95rem;
+            color: #666;
+            text-align: center;
+            margin-top: 0.5rem;
+        }
+
+        /* Legacy project content styles */
+        .project-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .project-content h1 {
+            font-size: 3rem;
+            color: #0000ff;
+            margin-bottom: 2rem;
+        }
+
+        .project-image {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .project-content p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            color: #555;
+        }
+
+        footer {
+            background: #f8f8f8;
+            padding: 2rem 0;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            nav ul {
+                gap: 1.5rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .text-container p {
+                font-size: 1.1rem;
+            }
+
+            .media-container {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .project-content h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo-section">
+                <a href="portfolio.html">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <div class="logo-box"></div>
+                        <div class="logo-text">
+                            <h1>Asher Friedman</h1>
+                            <p>Project Portfolio</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="portfolio.html">Portfolio</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <h1>Lacrosse Expected Goals Model</h1>
+
+    <main>
+        <!-- Hero Image Section -->
+        <section class="hero-image">
+            <img src="lacrosse-chart.png" alt="Lacrosse Shot Chart">
+        </section>
+
+        <!-- Text Content Section -->
+        <section class="project-text">
+            <div class="text-container">
+                <p>This data science project combined my passion for lacrosse with machine learning to create an expected goals (xG) model. I undertook this project to learn data analysis methods in Python, as I had only learned R in my coursework. Using classification techniques, I developed a model that quantifies the probability that a specific shot will result in a goal based on various factors such as shot location, angle, and game situation.</p>
+                
+                <p>A key component of this project was using computer vision packages in Python, specifically OpenCV, to track player and ball information from lacrosse game film. I used homography to map the location of the shooter on the field, which allowed me to accurately determine shot positions and angles. This automated data collection process enabled me to build a comprehensive dataset of shots with their outcomes.</p>
+                
+                <p>The final model achieved an ROC_AUC of 0.8333, which demonstrates a relatively strong ability to correctly predict goals. This result shows the model's effectiveness in distinguishing between shots that will result in goals and those that won't.</p>
+                
+                <p>Next steps to improve this project include using Bootstrapping and Cross Validation to better ensure there is no overfitting in the model. I would also use hyperparameter tuning to help create a more precise model. Additionally, I would create a more robust dataset that includes more shots from a wider variety of games and teams. To accomplish this, I would train a computer vision model that recognizes and tracks players live in film and directly scrapes the data. Lastly, I would also experiment with different variables and try different classification models such as XGBoost and Random Forest. In using these different models I would be able to include the partial data of the shot clock because XGBoost can deal with NA values.</p>
+            </div>
+        </section>
+
+        <!-- Media Gallery Section -->
+        <section class="media-gallery">
+            <div class="media-container">
+                <div class="media-item">
+                    <img src="lacrosse-game-footage.png" alt="Lacrosse game footage with tracking">
+                    <p class="caption">Computer vision tracking of player positions during game footage</p>
+                </div>
+                <div class="media-item">
+                    <img src="lacrosse-logit-results.png" alt="Logistic Regression Results">
+                    <p class="caption">Logistic regression model results showing ROC_AUC of 0.8333</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Asher Friedman. All rights reserved.</p>
+    </footer>
+</body>
+</html>
