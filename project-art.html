@@ -143,6 +143,7 @@
             overflow: hidden;
             border-radius: 8px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
         }
 
         .gallery-item img {
@@ -154,6 +155,46 @@
 
         .gallery-item:hover img {
             transform: scale(1.05);
+        }
+
+        /* Lightbox Styles */
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            overflow: auto;
+        }
+
+        .lightbox-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #bbb;
         }
 
         /* Legacy project content styles */
@@ -226,7 +267,7 @@
     <header>
         <div class="header-container">
             <div class="logo-section">
-                <a href="index.html">
+                <a href="portfolio.html">
                     <div style="display: flex; align-items: center; gap: 1rem;">
                         <div class="logo-box"></div>
                         <div class="logo-text">
@@ -238,7 +279,7 @@
             </div>
             <nav>
                 <ul>
-                    <li><a href="index.html">Portfolio</a></li>
+                    <li><a href="portfolio.html">Portfolio</a></li>
                     <li><a href="about.html">About</a></li>
                     <li><a href="contact.html">Contact</a></li>
                 </ul>
@@ -257,47 +298,76 @@
         <!-- Text Content Section -->
         <section class="project-text">
             <div class="text-container">
-                <p>Art has been a passion of mine since childhood, as mentioned in my About section. These pieces showcase my creative side and attention to detail across various mediums including painting, sculpture, ceramics, and fabric art.</p>
-                
-                <p>This collection represents the creative foundation that has influenced my approach to problem-solving in technical fields. The same attention to detail and iterative process used in art applies to my work in physics and data science.</p>
-                
-                <p>By maintaining artistic pursuits alongside my technical studies, I bring a unique perspective to engineering and scientific challenges, combining analytical thinking with creative problem-solving.</p>
+                <p>Art has been a passion of mine since childhood. These pieces showcase my creative side across various mediums including painting, drawing, ceramics, glassblowing, and screen printing. My experience doing art has directly influenced my approach to problem-solving in technical fields as the same attention to detail and iterative process used in art applies to my work in physics and data science.</p>
             </div>
         </section>
 
         <!-- Art Gallery Section -->
         <section class="art-gallery">
             <div class="gallery-grid">
-                <div class="gallery-item">
+                <div class="gallery-item" onclick="openLightbox('art-skull-wire.jpg')">
                     <img src="art-skull-wire.jpg" alt="Skull sculpture with wire tree">
                 </div>
-                <div class="gallery-item">
+                <div class="gallery-item" onclick="openLightbox('art-pottery-cup.jpg')">
                     <img src="art-pottery-cup.jpg" alt="Hand-thrown pottery cup">
                 </div>
-                <div class="gallery-item">
+                <div class="gallery-item" onclick="openLightbox('art-hoodie.jpg')">
                     <img src="art-hoodie.jpg" alt="Hand-painted hoodie design">
                 </div>
-                <div class="gallery-item">
+                <div class="gallery-item" onclick="openLightbox('art-cathedral-drawing.jpg')">
                     <img src="art-cathedral-drawing.jpg" alt="Cathedral architectural drawing">
                 </div>
-                <div class="gallery-item">
+                <div class="gallery-item" onclick="openLightbox('art-colorful-painting.jpg')">
                     <img src="art-colorful-painting.jpg" alt="Colorful abstract painting">
                 </div>
-                <div class="gallery-item">
+                <div class="gallery-item" onclick="openLightbox('art-glass-jar.jpg')">
                     <img src="art-glass-jar.jpg" alt="Glass jar with design">
                 </div>
-                <div class="gallery-item">
+                <div class="gallery-item" onclick="openLightbox('art-painted-converse.jpg')">
                     <img src="art-painted-converse.jpg" alt="Hand-painted Converse shoes">
                 </div>
-                <div class="gallery-item">
+                <div class="gallery-item" onclick="openLightbox('art-glass-strawberry.jpg')">
                     <img src="art-glass-strawberry.jpg" alt="Glass strawberry sculpture">
+                </div>
+                <div class="gallery-item" onclick="openLightbox('art-cactus-painting.jpg')">
+                    <img src="art-cactus-painting.jpg" alt="Cactus painting with beanie">
+                </div>
+                <div class="gallery-item" onclick="openLightbox('art-cigarette-drawing.jpg')">
+                    <img src="art-cigarette-drawing.jpg" alt="Cigarette pencil drawing">
                 </div>
             </div>
         </section>
+
+        <!-- Lightbox Modal -->
+        <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+            <span class="close">&times;</span>
+            <img class="lightbox-content" id="lightbox-img">
+        </div>
     </main>
 
     <footer>
         <p>&copy; 2026 Asher Friedman. All rights reserved.</p>
     </footer>
+
+    <script>
+        function openLightbox(imageSrc) {
+            var lightbox = document.getElementById('lightbox');
+            var lightboxImg = document.getElementById('lightbox-img');
+            lightbox.style.display = 'block';
+            lightboxImg.src = imageSrc;
+        }
+
+        function closeLightbox() {
+            var lightbox = document.getElementById('lightbox');
+            lightbox.style.display = 'none';
+        }
+
+        // Close lightbox when pressing Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeLightbox();
+            }
+        });
+    </script>
 </body>
 </html>
