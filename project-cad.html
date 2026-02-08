@@ -83,6 +83,73 @@
             color: #0000ff;
         }
 
+        /* Hero Image Section */
+        .hero-image {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Project Title */
+        h1 {
+            text-align: center;
+            font-size: 3.5rem;
+            color: #0000ff;
+            padding: 3rem 2rem 2rem;
+            margin: 0;
+        }
+
+        /* Text Content Section */
+        .project-text {
+            background: #f0f0f5;
+            padding: 4rem 2rem;
+        }
+
+        .text-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .text-container p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #0000ff;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Media Gallery Section */
+        .media-gallery {
+            background: #f0f0f5;
+            padding: 2rem 2rem 5rem;
+        }
+
+        .media-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .media-item {
+            width: 100%;
+        }
+
+        .media-item img,
+        .media-item video {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Legacy project content styles */
         .project-content {
             max-width: 900px;
             margin: 0 auto;
@@ -129,6 +196,19 @@
                 gap: 1.5rem;
             }
 
+            h1 {
+                font-size: 2rem;
+            }
+
+            .text-container p {
+                font-size: 1.1rem;
+            }
+
+            .media-container {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
             .project-content h1 {
                 font-size: 2rem;
             }
@@ -139,7 +219,7 @@
     <header>
         <div class="header-container">
             <div class="logo-section">
-                <a href="index.html">
+                <a href="portfolio.html">
                     <div style="display: flex; align-items: center; gap: 1rem;">
                         <div class="logo-box"></div>
                         <div class="logo-text">
@@ -151,7 +231,7 @@
             </div>
             <nav>
                 <ul>
-                    <li><a href="index.html">Portfolio</a></li>
+                    <li><a href="portfolio.html">Portfolio</a></li>
                     <li><a href="about.html">About</a></li>
                     <li><a href="contact.html">Contact</a></li>
                 </ul>
@@ -159,15 +239,35 @@
         </div>
     </header>
 
-    <main class="project-content">
-        <h1>Computer Aided Design</h1>
-        <img src="cad-design.png" alt="CAD Design" class="project-image">
-        
-        <p>This project showcases my work with Computer Aided Design (CAD) software, specifically using Onshape to create 3D models and technical designs. CAD is an essential tool in modern engineering, allowing for precise visualization and planning of mechanical components and assemblies.</p>
-        
-        <p>Through this project, I developed skills in 3D modeling, technical drawing, and design thinking. The ability to translate ideas into detailed digital models is crucial for prototyping and manufacturing processes.</p>
-        
-        <p>This work demonstrates the intersection of creativity and technical precision, showing how digital tools can be used to bring engineering concepts to life before physical production.</p>
+    <h1>Computer Aided Design</h1>
+
+    <main>
+        <!-- Hero Image Section -->
+        <section class="hero-image">
+            <img src="cad-design.png" alt="CAD Design">
+        </section>
+
+        <!-- Text Content Section -->
+        <section class="project-text">
+            <div class="text-container">
+                <p>This project showcases my work with Computer Aided Design (CAD) software of Onshape. At Oberlin College, we have the opportunity to do Winter Term Projects. These are month long projects that take place in in the month of January when we do not have classes. For one of these projects I chose to teach myself computer aided design. Through this project, I gained skills in 3D modeling which allowed me to work at the intersection of my passions of art and engineering. I chose to use do this project using OnShape after consulting with mechanical engineers that suggested it as a free alternative with a similar user interface as AutoCad.</p>
+            </div>
+        </section>
+
+        <!-- Media Gallery Section -->
+        <section class="media-gallery">
+            <div class="media-container">
+                <div class="media-item">
+                    <img src="cad-exploded-view.png" alt="CAD exploded view assembly">
+                </div>
+                <div class="media-item">
+                    <video controls>
+                        <source src="cad-video.mov" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </div>
+        </section>
     </main>
 
     <footer>
