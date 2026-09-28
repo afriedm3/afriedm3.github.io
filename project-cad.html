@@ -133,8 +133,9 @@
             max-width: 1200px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(3, 1fr);
             gap: 2rem;
+            align-items: center;
         }
 
         .media-item {
@@ -265,6 +266,9 @@
                         <source src="cad-video.mov" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
+                </div>
+                <div class="media-item">
+                    <img src="cad-sharpeye-wand.png" alt="SharpEye wand CAD assembly">
                 </div>
             </div>
         </section>
