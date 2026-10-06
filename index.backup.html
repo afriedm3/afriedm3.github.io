@@ -409,98 +409,6 @@
                 grid-template-columns: 1fr;
             }
         }
-
-        /* ---- Featured project with summary blurbs ---- */
-        .feature {
-            grid-column: 1 / -1;
-            background: #f5f5ff;
-            border-radius: 12px;
-            padding: 2.5rem;
-        }
-
-        .feature-head h3 {
-            font-size: 1.9rem;
-            color: #0000ff;
-            font-weight: 600;
-        }
-
-        .feature-head p {
-            color: #555;
-            font-size: 1.05rem;
-            margin-top: 0.4rem;
-        }
-
-        .sub-projects {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .sub {
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .sub img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            display: block;
-        }
-
-        .sub img.contain {
-            object-fit: contain;
-            background: #1a1a1a;
-        }
-
-        .sub-body {
-            padding: 1.25rem 1.4rem 1.5rem;
-        }
-
-        .sub-body h4 {
-            font-size: 1.2rem;
-            color: #0000ff;
-            margin-bottom: 0.9rem;
-        }
-
-        .sub-body dl {
-            margin: 0;
-        }
-
-        .sub-body dt {
-            font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: #0000ff;
-            margin-top: 0.8rem;
-        }
-
-        .sub-body dt:first-child {
-            margin-top: 0;
-        }
-
-        .sub-body dd {
-            margin: 0.2rem 0 0;
-            color: #333;
-            font-size: 0.97rem;
-            line-height: 1.5;
-        }
-
-        .feature-cta {
-            text-align: center;
-            margin-top: 2rem;
-        }
-
-        @media (max-width: 900px) {
-            .sub-projects { grid-template-columns: 1fr; }
-            .feature { padding: 1.5rem; }
-        }
     </style>
 </head>
 <body>
@@ -538,59 +446,10 @@
         <!-- Portfolio Gallery Section -->
         <section id="portfolio">
             <div class="portfolio-gallery">
-                <div class="feature">
-                    <div class="feature-head">
-                        <h3>SharpEye Internship</h3>
-                        <p>Summer 2026 · A startup building an AI tennis coaching app. I worked on three projects.</p>
-                    </div>
-                    <div class="sub-projects">
-                        <div class="sub">
-                            <img src="sharpeye-labeling-tool.png" alt="Labeling tool for marking hits and bounces">
-                            <div class="sub-body">
-                                <h4>Computer Vision Tracking</h4>
-                                <dl>
-                                    <dt>Challenge</dt>
-                                    <dd>Turn raw match video into accurate hit and bounce data, with very little labeled footage.</dd>
-                                    <dt>Skills</dt>
-                                    <dd>Python, PyTorch, OpenCV, model evaluation, data labeling</dd>
-                                    <dt>Outcome</dt>
-                                    <dd>Raised hit-detection F1 from 0.17 to 0.55 against ground-truth labels by adding frame-accurate labels, fixing their timing, and training on 6 matches instead of 1. My hand-charted matches later helped measure the team's detector at 0.75–0.83 F1.</dd>
-                                </dl>
-                            </div>
-                        </div>
-                        <div class="sub">
-                            <img src="sharpeye-stick-prototype.jpg" class="contain" alt="Filming stick prototype on a court fence">
-                            <div class="sub-body">
-                                <h4>Filming Stick</h4>
-                                <dl>
-                                    <dt>Challenge</dt>
-                                    <dd>Design a fence mount that holds a steady, adjustable camera angle, built around parts I didn't control.</dd>
-                                    <dt>Skills</dt>
-                                    <dd>CAD, product design, prototyping, design for manufacturing</dd>
-                                    <dt>Outcome</dt>
-                                    <dd>A working prototype, and my first pass through the full product design cycle.</dd>
-                                </dl>
-                            </div>
-                        </div>
-                        <div class="sub">
-                            <img src="sharpeye-shot-map.png" class="contain" alt="Shot maps in the SharpEye app">
-                            <div class="sub-body">
-                                <h4>Scoring Models &amp; App</h4>
-                                <dl>
-                                    <dt>Challenge</dt>
-                                    <dd>Rate a player's match fairly against their level, and separate real skill from luck.</dd>
-                                    <dt>Skills</dt>
-                                    <dd>R, linear regression, statistical inference, TypeScript</dd>
-                                    <dt>Outcome</dt>
-                                    <dd>Four ratings, now in the app's match reports, plus a shot map feature in the app.</dd>
-                                </dl>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="feature-cta">
-                        <a href="project-sharpeye.html" class="cta-button">View more information</a>
-                    </div>
-                </div>
+                <a href="project-sharpeye.html" class="portfolio-item featured">
+                    <img src="cad-sharpeye-wand.png" alt="SharpEye Internship">
+                    <h3>SharpEye Internship</h3>
+                </a>
                 <a href="project-subaru.html" class="portfolio-item">
                     <img src="subaru-engine.jpg" alt="Subaru Engine Swap">
                     <h3>Subaru Engine Swap</h3>

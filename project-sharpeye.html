@@ -457,9 +457,13 @@
             transform: rotate(45deg);
         }
 
-        .process-body {
+        details .process-body {
             padding: 0 2.25rem 2rem;
             border-top: 1px solid #ececf5;
+        }
+
+        .summary-card.process-body h4:first-child {
+            margin-top: 0;
         }
 
         .process-body h4 {
@@ -497,7 +501,7 @@
             .stats { grid-template-columns: 1fr; }
             .two-col { grid-template-columns: 1fr; gap: 1.25rem; }
             details.process summary { padding: 1.1rem 1.5rem; }
-            .process-body { padding: 0 1.5rem 1.5rem; }
+            details .process-body { padding: 0 1.5rem 1.5rem; }
         }
     </style>
 </head>
@@ -529,58 +533,59 @@
         <h2>SharpEye Internship</h2>
         <p class="subtitle">Summer 2026</p>
         <div class="jump-links">
-            <a href="#filming-stick">Filming Stick</a>
             <a href="#computer-vision">Computer Vision Tracking</a>
+            <a href="#filming-stick">Filming Stick</a>
             <a href="#scoring-models">Scoring Models &amp; App</a>
         </div>
     </section>
 
     <main>
         <section class="intro">
-            <p>During the summer of 2026 I interned with SharpEye Performance, a startup building an AI tennis coaching app to bridge the gap between the coaching top players receive and what the average player working to get better has access to. I worked on three projects: the hardware that records matches, the computer vision that turns video into data, and the scoring models that turn that data into feedback.</p>
+            <p>In summer 2026 I interned at SharpEye Performance, a startup building an AI tennis coaching app. Here is how each of my three projects went.</p>
+        </section>
+
+        <!-- ================= Computer Vision ================= -->
+        <section class="project-section" id="computer-vision">
+            <h3>Computer Vision Tracking</h3>
+            <div class="summary-card process-body">
+                <h4>Fixing the foundation</h4>
+                <p>The inherited ball tracker flagged a ball on 99.6% of frames, almost all wrong, because of a model-loading bug. I replaced it with a working model that found the ball about 80% of the time during rallies. I also built a point splitter for broadcast video, which cuts away between points.</p>
+                <h4>Better labels, better model</h4>
+                <p>The hit detector started at an F1 of 0.17 against ground-truth labels. I added frame-accurate labels, corrected a timing offset between video and labels, and grew training from 1 to 6 matches, which raised F1 to 0.55. The team adopted it as the default model.</p>
+                <h4>Making labeling fast</h4>
+                <p>I built a watch-and-correct tool where a person reviews the model's hits and bounces rally by rally. With a good draft, 90% of shots were accepted as-is at about 15 seconds per rally.</p>
+                <h4>Hand-charting the ground truth</h4>
+                <p>Automated labels had real errors, so the team switched to hand-charted matches as the accuracy standard. I charted full matches shot by shot, and one of mine was used to choose the shipped model. Measured against these charted matches, the team's detector reached 0.75–0.83 F1 on most held-out matches.</p>
+                <p class="takeaway"><strong>Takeaway:</strong> Label quality drove performance more than model architecture did, and models need to be tested on your own data, not published benchmarks.</p>
+            </div>
+            <div class="media-row wide">
+                <figure>
+                    <img src="sharpeye-labeling-tool.png" alt="Labeling tool for marking hits and bounces in match footage" onclick="openLightbox(this.src)">
+                    <figcaption>The labeling tool I built, with a live court map</figcaption>
+                </figure>
+                <figure>
+                    <img src="sharpeye-shot-map.png" alt="Shot maps for all shots, serves, and rallies" onclick="openLightbox(this.src)">
+                    <figcaption>Shot maps generated from the tracking output</figcaption>
+                </figure>
+            </div>
         </section>
 
         <!-- ================= Filming Stick ================= -->
         <section class="project-section" id="filming-stick">
             <h3>Filming Stick</h3>
-
-            <div class="summary-card">
-                <span class="label">Goal</span>
-                <p class="goal">Design a fence-mounted phone stand that records a full match from the right angle, stays steady in wind, and keeps the phone charged, so players can capture usable footage without help.</p>
-
-                <div class="stats">
-                    <div class="stat"><div class="num">4.2×</div><div class="desc">stabilizing vs. tipping moment around the fence hook in the final design</div></div>
-                    <div class="stat"><div class="num">25<span class="arrow">→</span>60 in</div><div class="desc">collapses to fit a tennis bag, extends to frame the full court</div></div>
-                    <div class="stat"><div class="num">$50–75</div><div class="desc">target landed unit cost at 1,000 units, from my bill of materials</div></div>
-                </div>
-
-                <div class="two-col">
-                    <div>
-                        <span class="label">Outcome</span>
-                        <ul>
-                            <li>My hydraulic-tilt concept (v3) became the base of the final approved design</li>
-                            <li>Took the design from CAD to a working prototype tested on a court fence</li>
-                            <li>Costed BOM and a hydraulic vs. pneumatic comparison for the tilt system</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <span class="label">Challenges</span>
-                        <ul>
-                            <li>Designing custom parts around purchased hardware I didn't control</li>
-                            <li>Adding tilt adjustment, the top complaint about competitors, without making the pole top-heavy</li>
-                            <li>Trading off cost against features for manufacturability</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <span class="label">Skills</span>
-                <div class="chips"><span>CAD</span><span>Product design</span><span>Competitive teardown</span><span>Weight &amp; balance analysis</span><span>BOM / costing</span><span>DFM</span></div>
+            <div class="summary-card process-body">
+                <h4>Define the problem</h4>
+                <p>A teardown of competitor mounts showed the biggest complaint: you have to unclip the pole from the fence to change the camera angle.</p>
+                <h4>Design around real parts</h4>
+                <p>I designed a tilt you adjust from the bottom of the pole, and fit my custom parts to purchased hardware like the phone clamp and charger. This pushed my CAD skills a lot.</p>
+                <h4>Prototype and iterate</h4>
+                <p>We built and tested the prototype on a court fence, then compared hydraulic and pneumatic tilt options and started thinking about design for manufacturing.</p>
+                <p class="takeaway"><strong>Takeaway:</strong> I went through the full product design cycle, from defining a problem to designing around real constraints to iterating on a prototype.</p>
             </div>
-
             <div class="media-row">
                 <figure>
                     <img src="sharpeye-stick-prototype.jpg" class="photo" alt="The finished filming stick prototype hanging on a court fence" onclick="openLightbox(this.src)">
-                    <figcaption>The working prototype, mounted on a court fence</figcaption>
+                    <figcaption>The working prototype on a court fence</figcaption>
                 </figure>
                 <figure>
                     <img src="cad-sharpeye-wand.png" alt="CAD assembly of the SharpEye filming stick" onclick="openLightbox(this.src)">
@@ -590,162 +595,29 @@
             <div class="media-row">
                 <figure>
                     <img src="sharpeye-stick-exploded-top.png" alt="Exploded view of the phone mount and clip assembly" onclick="openLightbox(this.src)">
-                    <figcaption>Exploded view of the mount and clip, designed around purchased parts</figcaption>
+                    <figcaption>Exploded view of the mount and clip</figcaption>
                 </figure>
                 <figure>
                     <img src="sharpeye-stick-exploded-handle.png" alt="Exploded view of the handle assembly" onclick="openLightbox(this.src)">
-                    <figcaption>Exploded view of the handle assembly</figcaption>
+                    <figcaption>Exploded view of the handle</figcaption>
                 </figure>
             </div>
-
-            <details class="process">
-                <summary>Read the full process</summary>
-                <div class="process-body">
-                    <h4>1. Define the problem</h4>
-                    <p>SharpEye was recording on a basic fence pole. I started with a teardown of the leading competitor and similar mounts. Across reviews, the most common complaint was having to unclip the pole from the fence to change its height or angle. That set the target: adjustable angle without touching the mount, better wind stability, and charging through a two-to-three-hour match.</p>
-                    <h4>2. Concepts and requirements</h4>
-                    <p>We explored a motorized pole and a manual one with fence straps. I wrote the requirements for a third option: a hydraulic tilt, where a knob at the base of the pole drives a small piston at the head to angle the phone 0–30°. The final design combined it with a carbon fiber telescoping pole, a Qi charger behind the phone, a sun shield, and fold-out wings for stability.</p>
-                    <h4>3. Design around real parts</h4>
-                    <p>Turning the idea into something real forced me to hone my CAD skills and fit my own components to purchased hardware: the phone clamp, the charger board, and the threaded camera interface.</p>
-                    <h4>4. Check stability with numbers</h4>
-                    <p>We built a weight and moment budget for every component above, at, and below the fence hook. With the battery and grip at the base, the stabilizing moment came to 30,904 g·in against 7,395 g·in of tipping moment, about 4.2× more stable.</p>
-                    <h4>5. Cost and manufacturability</h4>
-                    <p>I priced the design at 100 and 1,000 units, with a target landed cost of $50–75 plus $4.5k–13k in one-time tooling. I also compared hydraulic and pneumatic tilt systems for the prototype (about $95–190 vs. $23–58) to see what the hydraulic version's reliability was costing us.</p>
-                    <h4>6. Prototype</h4>
-                    <p>The design was built into a working prototype and hung on a court fence to check fit, stability, and camera angle in real conditions.</p>
-                    <p class="takeaway"><strong>Takeaway:</strong> I went through the full product design cycle, from defining a problem, to designing around real-world constraints, to iterating from a prototype toward something that can be manufactured.</p>
-                </div>
-            </details>
-        </section>
-
-        <!-- ================= Computer Vision ================= -->
-        <section class="project-section" id="computer-vision">
-            <h3>Computer Vision Tracking</h3>
-
-            <div class="summary-card">
-                <span class="label">Goal</span>
-                <p class="goal">Turn raw match video into point-by-point shot data (hits, bounces, and court positions) to replace hours of hand-charting each match.</p>
-
-                <div class="stats">
-                    <div class="stat"><div class="num">0.17<span class="arrow">→</span>0.52</div><div class="desc">hit-detection F1 on held-out footage, after adding frame-accurate SwingVision labels to training (recall 9% → 38%)</div></div>
-                    <div class="stat"><div class="num">~80%</div><div class="desc">ball-tracking recall during rallies, after replacing a model whose detections were 99.6% false positives</div></div>
-                    <div class="stat"><div class="num">90%</div><div class="desc">of auto-labeled shots accepted as-is in my correction tool, at about 15 s per rally</div></div>
-                </div>
-
-                <div class="two-col">
-                    <div>
-                        <span class="label">Outcome</span>
-                        <ul>
-                            <li>Retrained on 6 matches: F1 0.42 → 0.55 and recall 38% → 58%; adopted as the team's hit model</li>
-                            <li>Raised near-side hitter attribution from 47% to 69%, and showed post-hoc false-hit filters were a dead end</li>
-                            <li>The team's detector, built on this pipeline, reached ~89 F1 on the standard camera setup and 80.5 F1 on unseen rigs by mid-July</li>
-                            <li>Built a watch-and-correct labeling tool with timing built in to measure correction speed</li>
-                            <li>Hand-labeled a 98-rally match and found the reference dataset missed ~16% of points</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <span class="label">Challenges</span>
-                        <ul>
-                            <li>Broadcast cameras cut away between points, breaking fixed-camera point splitting</li>
-                            <li>The inherited ball tracker had a silent weight-loading bug</li>
-                            <li>Small, partly-labeled datasets: more data mattered more than model tuning</li>
-                            <li>False hits on the far side of the court, where one camera loses depth</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <span class="label">Skills</span>
-                <div class="chips"><span>Python</span><span>PyTorch</span><span>OpenCV</span><span>Temporal CNNs</span><span>Model evaluation (F1 / recall)</span><span>Data labeling</span><span>Homography</span><span>Git</span></div>
-            </div>
-
-            <div class="media-row wide">
-                <figure>
-                    <img src="sharpeye-labeling-tool.png" alt="Labeling tool for marking hits and bounces in match footage" onclick="openLightbox(this.src)">
-                    <figcaption>The labeling tool I built for marking hits and bounces, with court calibration and a live court map</figcaption>
-                </figure>
-                <figure>
-                    <img src="sharpeye-shot-map.png" alt="Shot maps for all shots, serves, and rallies" onclick="openLightbox(this.src)">
-                    <figcaption>Shot maps generated from the tracking output</figcaption>
-                </figure>
-            </div>
-
-            <details class="process">
-                <summary>Read the full process</summary>
-                <div class="process-body">
-                    <h4>1. Splitting broadcast video into points</h4>
-                    <p>The existing point splitter assumed a fixed camera. Broadcast footage cuts away to players, crowds, and replays between points, so I built a broadcast-aware segmenter that uses how much of the frame is court plus a ball detector to reject cutaways, and read the on-screen scoreboard with OCR to line points up with the hand-charted log.</p>
-                    <h4>2. Fixing the ball tracker</h4>
-                    <p>The ball tracker reported a detection on 99.6% of frames, and nearly all of them were wrong. I traced it to a conversion bug that silently reset the network's normalization layers on load. I replaced it with a natively trained PyTorch TrackNet model, which landed on the ball about 77–80% of the time during rallies.</p>
-                    <h4>3. Labeling and finding the data problem</h4>
-                    <p>I labeled every rally of a 98-rally match and fed the errors back into the splicer. That fixed seven clip windows and recovered two skipped points with zero regressions. It also showed that the public reference charts left out about 16% of points, mostly return errors.</p>
-                    <h4>4. Training the hit-timing model</h4>
-                    <p>The hit detector was trained only on broadcast labels and scored an F1 of 0.17 on held-out footage. I added frame-accurate ground truth from SwingVision matches, after correcting a timing offset, and F1 rose to 0.52 with recall going from 9% to 38%. Expanding to six SwingVision matches raised F1 from 0.42 to 0.55 on our test clip, and the team adopted it as the default model.</p>
-                    <h4>5. Making correction fast</h4>
-                    <p>A model doesn't need to be perfect if fixing its mistakes is fast. I built a browser tool that plays each rally next to a court map so a person can accept, nudge, add, or delete hits and bounces, and it logs the time spent per rally. With a good starting draft, 90% of shots were accepted unchanged at about 15 seconds per rally. With the old rule-based draft, the person had to rebuild the rally (43 additions, 42 deletions). I also automated court calibration with a RANSAC fit, to within 3–5 pixels.</p>
-                    <h4>6. Chasing false positives</h4>
-                    <p>The remaining errors were mostly false hits on the far side of the court. First I fixed how each hit is assigned to a player: measuring from the wrist instead of the feet raised near-side attribution accuracy from 47% to 69%. Then I tested five after-the-fact filters for removing false hits (timing, alternation, ball proximity, trajectory kinks, and bounce overlap). Each filter separated real hits from false ones no better than a coin flip (AUC ≈ 0.5), even though the ball was usually in view: most false hits happened with a player genuinely near the ball. That showed the fix had to come from better tracking and the detector itself, not cleanup rules, and the team took that direction.</p>
-                    <h4>7. Where the model ended up</h4>
-                    <p>Building on that groundwork, the team's hit detector reached about 89 F1 on SharpEye's standard camera setup and 80.5 F1 on camera setups it had never seen by mid-July, measured during live points against SwingVision's labels. SwingVision itself is reported at roughly 85–90% shot-detection accuracy, so this is close to parity.</p>
-                    <p class="takeaway"><strong>Takeaway:</strong> Evaluate models against your own data, not published benchmarks. Label quality and quantity drove performance more than architecture, and the best system was several specialized models (court, ball, player, hits) working together.</p>
-                </div>
-            </details>
         </section>
 
         <!-- ================= Scoring Models ================= -->
         <section class="project-section" id="scoring-models">
             <h3>Scoring Models &amp; App</h3>
-
-            <div class="summary-card">
-                <span class="label">Goal</span>
-                <p class="goal">Build fair ratings that tell a player how they performed compared to what their skill level (UTR) predicts, and separate real skill from luck.</p>
-
-                <div class="stats">
-                    <div class="stat"><div class="num">10,339</div><div class="desc">match records from 370+ players, joined to each player's UTR on the match date</div></div>
-                    <div class="stat"><div class="num">4</div><div class="desc">calibrated scores shipped: Serve IQ, Return IQ, Rally DNA, and Clutch Factor</div></div>
-                    <div class="stat"><div class="num">~43%</div><div class="desc">of one match's serve-score variance found to be pure luck, and scaled out of the rating</div></div>
-                </div>
-
-                <div class="two-col">
-                    <div>
-                        <span class="label">Outcome</span>
-                        <ul>
-                            <li>Replaced hand-tuned constants with regressions fit by gender</li>
-                            <li>Rejected the simple "UTR gap" model (p &lt; 0.001), since serve and return effects aren't symmetric</li>
-                            <li>Integrated the v1 scores into the production report pipeline and database, with ratings that update after every match</li>
-                            <li>Over-time ratings tuned on about 9,200 one-step-ahead predictions</li>
-                            <li>Shipped a Shot Map feature to the web and iOS app, plus UTR auto-fill</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <span class="label">Challenges</span>
-                        <ul>
-                            <li>Getting each player's historical UTR as of the match date</li>
-                            <li>Clutch performance is about 95% noise in a single match</li>
-                            <li>99.8% of the data was UTR 11+, so low-level players needed a safeguard</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <span class="label">Skills</span>
-                <div class="chips"><span>R</span><span>Linear regression</span><span>Statistical inference</span><span>Reliability / noise analysis</span><span>Python scraping</span><span>TypeScript</span><span>Swift (iOS)</span><span>SQL</span></div>
+            <div class="summary-card process-body">
+                <h4>A different kind of model</h4>
+                <p>Instead of predicting who wins, I built ratings that compare a player's match to what their skill level (UTR) predicts, so a player can hear "you served like a 16.2 today."</p>
+                <h4>Expected vs. actual</h4>
+                <p>I used linear regression on thousands of charted matches to estimate expected performance, then turned each player's result above or below that into a rating.</p>
+                <h4>Skill vs. luck</h4>
+                <p>One match is a small sample, so a lot of the variation is luck. I measured how much and scaled it out, so the ratings don't overreact to one lucky or unlucky day.</p>
+                <h4>Into the product</h4>
+                <p>I connected the ratings to the app's match reports and built a shot map in the app.</p>
+                <p class="takeaway"><strong>Takeaway:</strong> A lot of a single result is noise, which runs against the sports idea that every result is earned. I learned how to design a fair comparison metric.</p>
             </div>
-
-            <details class="process">
-                <summary>Read the full process</summary>
-                <div class="process-body">
-                    <h4>1. Reframing the question</h4>
-                    <p>This built on modeling I'd done in class, but with a different goal. Instead of predicting outcomes, I was building a metric that compares a player's performance to what's expected at their level, so a player can hear "you served like a 16.2 UTR player today."</p>
-                    <h4>2. Building the dataset</h4>
-                    <p>I paired 10,339 player-match records from the Match Charting Project and SharpEye's own matches with each player's UTR as of the match date, scraped week by week. That meant handling problems like returning pros whose UTR had decayed during long layoffs.</p>
-                    <h4>3. Fitting the model</h4>
-                    <p>For each stat I fit <em>stat% = c0 + c1·player UTR + c2·opponent UTR</em> separately by gender. The data rejected a single "skill gap" term: serve and return effects are asymmetric because the server holds the bigger weapon. Men win 64.9% of serve points in an even match and women 57.6%, which is why gender stays in the model.</p>
-                    <h4>4. Separating skill from luck</h4>
-                    <p>A match's serve percentage comes from about 70 points, so I measured how much of the spread between matches is random chance: about 43% for serve and 52% for rallies. The residual is converted into UTR units and scaled down by that amount, which keeps the scale believable. For Clutch Factor, a single match turned out to be about 95% noise, so it's shown as a percentile instead of a precise rating.</p>
-                    <h4>5. Over time and in the app</h4>
-                    <p>I added ratings that track a player across matches using an exponentially weighted average, tuned on about 9,200 predictions. I then ported the model into SharpEye's production report pipeline: computing pressure points directly from the match log (including no-ad and tiebreak formats), adding a database migration to store residuals and player ratings, and updating each player's rating after every match. In the app, I built the Shot Map, which plots bounce locations on a to-scale court for web and iOS, and UTR auto-fill.</p>
-                    <p class="takeaway"><strong>Takeaway:</strong> A lot of a single result is noise, which runs against the common attitude in sports that every result is earned. This project taught me how to design a fair comparison metric and how to separate real skill from randomness in performance data.</p>
-                </div>
-            </details>
         </section>
     </main>
 
