@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SharpEye Internship - Asher Friedman</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 110px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f0f0f5;
+        }
+
+        /* Header Styles */
+        header {
+            background: white;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid #e0e0e0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section a {
+            text-decoration: none;
+        }
+
+        .logo-box {
+            width: 50px;
+            height: 50px;
+            background: #0000ff;
+            border-radius: 4px;
+        }
+
+        .logo-text h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #0000ff;
+            margin-bottom: 0.2rem;
+        }
+
+        .logo-text p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #333;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #0000ff;
+        }
+
+        /* Page Title */
+        .page-title {
+            background: white;
+            text-align: center;
+            padding: 3rem 2rem 2.5rem;
+        }
+
+        .page-title h2 {
+            font-size: 3.5rem;
+            color: #0000ff;
+            line-height: 1.2;
+        }
+
+        .page-title .subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        /* Section jump links */
+        .jump-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .jump-links a {
+            color: #0000ff;
+            border: 2px solid #0000ff;
+            padding: 0.6rem 1.4rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .jump-links a:hover {
+            background: #0000ff;
+            color: white;
+        }
+
+        /* Intro */
+        .intro {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 4rem 2rem 1rem;
+        }
+
+        .intro p,
+        .project-section p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #0000ff;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Project Sections */
+        .project-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            border-top: 1px solid #d8d8e8;
+        }
+
+        .project-section h3 {
+            font-size: 2.2rem;
+            color: #0000ff;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-body {
+            display: grid;
+            grid-template-columns: 1.3fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .section-body.text-only {
+            grid-template-columns: 1fr;
+            max-width: 1000px;
+        }
+
+        .section-media img,
+        .section-media video {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+
+        /* Image rows under each section */
+        .media-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2.5rem;
+            align-items: start;
+        }
+
+        .media-row figure {
+            margin: 0;
+        }
+
+        .media-row img {
+            width: 100%;
+            border-radius: 8px;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Tall exploded views: cap height so they don't dominate the page */
+        .media-row:not(.wide) img {
+            height: 520px;
+            object-fit: contain;
+            padding: 1rem;
+        }
+
+        .media-row.wide {
+            grid-template-columns: 1.4fr 1fr;
+            align-items: center;
+        }
+
+        figcaption {
+            font-size: 0.95rem;
+            color: #666;
+            text-align: center;
+            margin-top: 0.75rem;
+        }
+
+        .section-media img,
+        .media-row img {
+            cursor: zoom-in;
+        }
+
+        /* Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.9);
+            align-items: center;
+            justify-content: center;
+            cursor: zoom-out;
+        }
+
+        .lightbox.open {
+            display: flex;
+        }
+
+        .lightbox img {
+            max-width: 92%;
+            max-height: 92%;
+            border-radius: 4px;
+            background: white;
+        }
+
+        .lightbox .close {
+            position: absolute;
+            top: 20px;
+            right: 36px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+        }
+
+        /* Footer */
+        footer {
+            background: #f8f8f8;
+            padding: 2rem 0;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #e0e0e0;
+            margin-top: 3rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            nav ul {
+                gap: 1.5rem;
+            }
+
+            .page-title h2 {
+                font-size: 2.2rem;
+            }
+
+            .project-section h3 {
+                font-size: 1.7rem;
+            }
+
+            .intro p,
+            .project-section p {
+                font-size: 1.1rem;
+            }
+
+            .section-body {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .media-row,
+            .media-row.wide {
+                grid-template-columns: 1fr;
+            }
+
+            .media-row:not(.wide) img {
+                height: 420px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo-section">
+                <a href="index.html">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <div class="logo-box"></div>
+                        <div class="logo-text">
+                            <h1>Asher Friedman</h1>
+                            <p>Project Portfolio</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Portfolio</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="page-title">
+        <h2>SharpEye Internship</h2>
+        <p class="subtitle">Summer 2026</p>
+        <div class="jump-links">
+            <a href="#filming-stick">Filming Stick</a>
+            <a href="#computer-vision">Computer Vision Tracking</a>
+            <a href="#scoring-models">Scoring Models &amp; App</a>
+        </div>
+    </section>
+
+    <main>
+        <section class="intro">
+            <p>During the summer of 2026 I interned with SharpEye Performance, a startup building an AI tennis coaching app to bridge the gap between the coaching top players receive and what the average player working to get better has access to. Below are the three projects I worked on and my biggest takeaways from each.</p>
+        </section>
+
+        <!-- Filming Stick -->
+        <section class="project-section" id="filming-stick">
+            <h3>Filming Stick</h3>
+            <div class="section-body">
+                <div class="section-text">
+                    <p>The filming stick started with brainstorming the problem and designing a product to solve it. Turning that idea into something real forced me to hone my CAD skills and learn to design around purchased parts, fitting my own components to hardware I didn't control.</p>
+                    <p>From there I tested the prototype, made iterations based on what I found, and began learning about designing for manufacturability. My biggest takeaway was experiencing the full product design cycle, from defining a problem, to designing around real-world constraints, to iterating from a prototype toward something that can actually be manufactured.</p>
+                </div>
+                <div class="section-media">
+                    <img src="cad-sharpeye-wand.png" alt="CAD assembly of the SharpEye filming stick" onclick="openLightbox(this.src)">
+                </div>
+            </div>
+            <div class="media-row">
+                <figure>
+                    <img src="sharpeye-stick-exploded-top.png" alt="Exploded view of the phone mount and clip assembly" onclick="openLightbox(this.src)">
+                    <figcaption>Exploded view of the mount and clip, designed around purchased parts</figcaption>
+                </figure>
+                <figure>
+                    <img src="sharpeye-stick-exploded-handle.png" alt="Exploded view of the handle assembly" onclick="openLightbox(this.src)">
+                    <figcaption>Exploded view of the handle assembly</figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <!-- Computer Vision -->
+        <section class="project-section" id="computer-vision">
+            <h3>Computer Vision Tracking</h3>
+            <div class="section-body text-only">
+                <div class="section-text">
+                    <p>The computer vision project was an opportunity to learn as I went. I researched the landscape of object detection and tracking models and tested different options on our own footage to see what actually worked.</p>
+                    <p>To train and evaluate the models, I built tools for manually labeling matches, creating our training and testing data. I then made adjustments to the models to maximize their performance. In the end we used different models for different jobs: one for court tracking, one for ball tracking, and one for player tracking. The most valuable lesson was learning to evaluate models against our own data rather than published benchmarks, and seeing how much the quality of labeled data drives performance. It also showed me that the best solution is often several specialized models working together rather than one model that does everything.</p>
+                </div>
+            </div>
+            <div class="media-row wide">
+                <figure>
+                    <img src="sharpeye-labeling-tool.png" alt="Labeling tool for marking hits and bounces in match footage" onclick="openLightbox(this.src)">
+                    <figcaption>The labeling tool I built for marking hits and bounces, with court calibration and a live court map</figcaption>
+                </figure>
+                <figure>
+                    <img src="sharpeye-shot-map.png" alt="Shot maps for all shots, serves, and rallies" onclick="openLightbox(this.src)">
+                    <figcaption>Shot maps generated from the tracking output</figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <!-- Scoring Models -->
+        <section class="project-section" id="scoring-models">
+            <h3>Scoring Models &amp; App</h3>
+            <div class="section-body text-only">
+                <div class="section-text">
+                    <p>This project built on the modeling I had done in class, but with a different goal. Instead of building a model to make predictions, I was building a metric that compares a player's performance to other players at a similar level.</p>
+                    <p>I landed on using a linear regression to estimate expected performance, then used the distribution of residuals to turn how far a player landed above or below that expectation into a percentile rating. I also worked on the app where these ratings are shown to players.</p>
+                    <p>This project pushed me to think about how much noise, luck, and randomness goes into a player's performance, an idea that runs against the common attitude in sports that every result is earned. More than anything, it taught me how to design a fair comparison metric and how to separate real skill from randomness in performance data.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Asher Friedman. All rights reserved.</p>
+    </footer>
+
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <span class="close">&times;</span>
+        <img id="lightbox-img" alt="">
+    </div>
+
+    <script>
+        function openLightbox(src) {
+            document.getElementById('lightbox-img').src = src;
+            document.getElementById('lightbox').classList.add('open');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('open');
+        }
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') closeLightbox();
+        });
+    </script>
+</body>
+</html>
