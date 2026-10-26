@@ -548,15 +548,13 @@
         <section class="project-section" id="computer-vision">
             <h3>Computer Vision Tracking</h3>
             <div class="summary-card process-body">
-                <h4>Fixing the foundation</h4>
-                <p>The inherited ball tracker flagged a ball on 99.6% of frames, almost all wrong, because of a model-loading bug. I replaced it with a working model that found the ball about 80% of the time during rallies. I also built a point splitter for broadcast video, which cuts away between points.</p>
-                <h4>Better labels, better model</h4>
-                <p>The hit detector started at an F1 of 0.17 against ground-truth labels. I added frame-accurate labels, corrected a timing offset between video and labels, and grew training from 1 to 6 matches, which raised F1 to 0.55. The team adopted it as the default model.</p>
-                <h4>Making labeling fast</h4>
-                <p>I built a watch-and-correct tool where a person reviews the model's hits and bounces rally by rally. With a good draft, 90% of shots were accepted as-is at about 15 seconds per rally.</p>
-                <h4>Hand-charting the ground truth</h4>
-                <p>Automated labels had real errors, so the team switched to hand-charted matches as the accuracy standard. I charted full matches shot by shot, and one of mine was used to choose the shipped model. Measured against these charted matches, the team's detector reached 0.75–0.83 F1 on most held-out matches.</p>
-                <p class="takeaway"><strong>Takeaway:</strong> Label quality drove performance more than model architecture did, and models need to be tested on your own data, not published benchmarks.</p>
+                <h4>Tracking the ball, players, and court</h4>
+                <p>To build the computer vision system for scraping data from tennis matches, we started by tracking the ball, players, and court. The hardest piece was ball tracking, especially the far half of the court, where the ball is only a few pixels wide. We tried several out-of-the-box models and picked the one that tested the best on far-court tracking. Out of the box it still struggled in harder conditions, like playing nearly blind at night, so we fine-tuned it on our own labeled matches. That lifted far-court detection to about 74% on new venues and over 95% on footage close to our training data.</p>
+                <h4>Detecting hits</h4>
+                <p>Once the ball, players, and court were tracked reasonably accurately, we worked on identifying hits. We used a temporal convolutional network (TCN) built on player-pose and ball-motion features, because it reads a hit from the sequence of body movement across many frames rather than from a single image &mdash; and the player's pose stays visible even when the ball doesn't. A single-frame approach had already proven to be a dead end.</p>
+                <h4>The far-court problem</h4>
+                <p>Our biggest challenge was identifying far-court hits, where the players and ball are much smaller in the frame. Running the detector on the full frame meant the far player was barely picked up at all. To fix this, we ran the model on a zoomed-in crop of the far court so the far player and ball were large enough to read, which is what finally cracked far-court detection.</p>
+                <p>By the end of my internship, the hit detector reached an F1 score of roughly 0.80&ndash;0.83 on held-out matches &mdash; and up to about 0.89 on our standard camera setup &mdash; accurate enough to automatically draft a match's shots for a person to quickly correct.</p>
             </div>
             <div class="media-row wide">
                 <figure>
@@ -574,32 +572,24 @@
         <section class="project-section" id="filming-stick">
             <h3>Filming Stick</h3>
             <div class="summary-card process-body">
-                <h4>Define the problem</h4>
-                <p>A teardown of competitor mounts showed the biggest complaint: you have to unclip the pole from the fence to change the camera angle.</p>
-                <h4>Design around real parts</h4>
-                <p>I designed a tilt you adjust from the bottom of the pole, and fit my custom parts to purchased hardware like the phone clamp and charger. This pushed my CAD skills a lot.</p>
-                <h4>Prototype and iterate</h4>
-                <p>We built and tested the prototype on a court fence, then compared hydraulic and pneumatic tilt options and started thinking about design for manufacturing.</p>
-                <p class="takeaway"><strong>Takeaway:</strong> I went through the full product design cycle, from defining a problem to designing around real constraints to iterating on a prototype.</p>
+                <p>Players needed a way to film their own matches from a fixed, elevated angle, so I started by tearing down the camera mounts already on the market. The biggest recurring complaint was simple: to change the camera angle, you had to unclip the whole pole from the fence and re-mount it.</p>
+                <h4>Designing around real parts</h4>
+                <p>My first idea was a mount whose angle you could adjust from the bottom of the pole, without ever taking it down. I designed the custom parts in CAD around hardware I didn't control &mdash; a purchased phone clamp, charger, and pole &mdash; so every part had to fit real dimensions exactly. This pushed my CAD skills a long way.</p>
+                <h4>Testing and simplifying</h4>
+                <p>I prototyped that adjustable tilt using both pneumatic and hydraulic mechanisms, but testing showed both were too complex and expensive to design and manufacture in the time we had. That became a big learning moment for me: often, simpler is better. Instead of a moving tilt, we calculated the ideal height and camera angle and added markings on the pivot, so we could just tell users which setting to use &mdash; getting a good shot with far fewer adjustments.</p>
             </div>
-            <div class="media-row">
+            <div class="media-row three">
                 <figure>
                     <img src="sharpeye-stick-prototype.jpg" class="photo" alt="The finished filming stick prototype hanging on a court fence" onclick="openLightbox(this.src)">
                     <figcaption>The working prototype on a court fence</figcaption>
                 </figure>
                 <figure>
-                    <img src="cad-sharpeye-wand.png" alt="CAD assembly of the SharpEye filming stick" onclick="openLightbox(this.src)">
-                    <figcaption>The CAD assembly it was built from</figcaption>
-                </figure>
-            </div>
-            <div class="media-row">
-                <figure>
                     <img src="sharpeye-stick-exploded-top.png" alt="Exploded view of the phone mount and clip assembly" onclick="openLightbox(this.src)">
                     <figcaption>Exploded view of the mount and clip</figcaption>
                 </figure>
                 <figure>
-                    <img src="sharpeye-stick-exploded-handle.png" alt="Exploded view of the handle assembly" onclick="openLightbox(this.src)">
-                    <figcaption>Exploded view of the handle</figcaption>
+                    <img src="sharpeye-stick-exploded-handle.png" alt="Exploded view of the handle assembly that holds the battery" onclick="openLightbox(this.src)">
+                    <figcaption>Exploded view of the handle made to hold the battery</figcaption>
                 </figure>
             </div>
         </section>
@@ -608,15 +598,13 @@
         <section class="project-section" id="scoring-models">
             <h3>Scoring Models &amp; App</h3>
             <div class="summary-card process-body">
-                <h4>A different kind of model</h4>
-                <p>Instead of predicting who wins, I built ratings that compare a player's match to what their skill level (UTR) predicts, so a player can hear "you served like a 16.2 today."</p>
-                <h4>Expected vs. actual</h4>
-                <p>I used linear regression on thousands of charted matches to estimate expected performance, then turned each player's result above or below that into a rating.</p>
-                <h4>Skill vs. luck</h4>
-                <p>One match is a small sample, so a lot of the variation is luck. I measured how much and scaled it out, so the ratings don't overreact to one lucky or unlucky day.</p>
-                <h4>Into the product</h4>
-                <p>I connected the ratings to the app's match reports and built a shot map in the app.</p>
-                <p class="takeaway"><strong>Takeaway:</strong> A lot of a single result is noise, which runs against the sports idea that every result is earned. I learned how to design a fair comparison metric.</p>
+                <p>The models I made were meant to capture how a player performed in specific aspects of a match, not just whether they won or lost, which makes them far more useful by showing a player their real strengths and weaknesses. I built four ratings &mdash; Serve IQ, Return IQ, Rally DNA, and Clutch Factor &mdash; each comparing a player's match to what their skill level predicts, so they can hear something like "you served like a 16.2 today."</p>
+                <h4>How the scores work</h4>
+                <p>Using each player's rating (UTR) and their opponent's, I fit regressions on thousands of charted matches to estimate how a typical player at that level would perform. Each score is then how far above or below that expectation they actually played, measured in rating points.</p>
+                <h4>Accounting for luck</h4>
+                <p>A single match is a small sample, so a lot of the swing in any one performance is luck rather than skill. I measured exactly how much &mdash; for the clutch metric, roughly 90% of a match's pressure-point swing turned out to be noise &mdash; and scaled it out so the ratings don't overreact to one lucky or unlucky day. Where the signal was too thin to trust as a skill level, I kept the metric descriptive instead of pretending it measured ability.</p>
+                <h4>Validating and shipping it</h4>
+                <p>I checked the pressure-point logic against the app's existing definitions (over 99% agreement) and sanity-checked the scores on famous finals &mdash; for example, the model rated Alcaraz far more clutch than Sinner in the 2025 French Open final, and flagged a player who out-clutched her opponent and still lost. From there I connected the ratings to the app's match reports and built a shot map in the app.</p>
             </div>
         </section>
     </main>
